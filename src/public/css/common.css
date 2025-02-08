@@ -1,0 +1,150 @@
+html,
+body {
+  height: 100%;
+}
+
+body, textarea, input {
+  color: #000;
+}
+
+textarea::placeholder,
+input::placeholder {
+  color: #000;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ヘッダー */
+.header {
+  display: grid;
+  align-items: left;
+  padding: 16px 0;
+  height: 80px;
+  border: 1px solid #000;
+  background-color: #000;
+  text-align: center;
+  font-family: serif;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+}
+
+.header__heading {
+  font-weight: lighter;
+  font-size: 32px;
+
+  grid-column: 1;
+}
+
+.search__form{
+  font-weight: lighter;
+  font-size: 25px;
+  padding-left: 10px;
+  width: 100%;
+  text-align: left;
+
+  grid-column: 2;
+}
+
+.header__middle{
+  background-color: #FFF;
+  border-radius: 5px;
+  width: 100%;
+
+}
+
+.header__link {
+  display: flex;
+  justify-content: space-evenly;
+  grid-column: 3;
+}
+
+.header__link-logout,
+.header__link-login,
+.header__link-mypage{
+  text-align: center;
+  font-size: 24px;
+  margin: 0 auto;
+  border: none;
+  background-color: #000;
+  color: #FFF;
+  text-decoration: none;
+  height: 100%;
+}
+
+.header__link-sell {
+  font-size: 24px;
+  border-radius: 5px;
+  margin: 0 auto;
+  width: 80px;
+  border: none;
+  background-color: #FFFFFF;
+  color: #000;
+  text-decoration: none;
+  height: 100%;
+}
+
+/* コンテンツ */
+.content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  padding: 48px;
+}
+
+.content__heading {
+  text-align: center;
+  font-weight: 100;
+  font-size: 32px;
+  font-family: serif;
+  font-weight: bold;
+}
+
+/* ボタン */
+.btn {
+  display: block;
+  padding: 8px 32px;
+  border: none;
+  background-color: #FF5555;
+  color: #FFF;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* ページネーション */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+.pagination li:not(.active) {
+  border: 1px solid #E0DFDE;
+  padding: 4px 12px;
+}
+
+.pagination li:not(:last-child) {
+  border-right: none;
+}
+
+.pagination a {
+  color: #8B7969;
+  text-decoration: none;
+}
+
+.pagination__link {
+  text-decoration: none;
+}
+
+.active {
+  padding: 4px 12px;
+  border: 1px solid #8B7969;
+  background-color: #8B7969;
+  color: #FFF;
+}

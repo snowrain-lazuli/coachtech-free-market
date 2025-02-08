@@ -1,0 +1,49 @@
+.app {
+    display: unset;
+}
+
+.content {
+    display: unset;
+    justify-content: unset;
+    width: 100%;
+}
+
+.index__header{
+    height: 10%;
+    width: 100%;
+    padding: 0%;
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px solid #000;
+}
+
+.index__header__form-recommendation{
+    float: left;
+    margin: 0px 50px 0px 50px;
+}
+
+.index__header__form-mylist{
+    float: left;
+    margin: 0px 50px 0px 50px;
+}
+
+.index__content{
+    float: left;
+}
+
+.index__form{
+    float: left;
+    height: 320px;
+    width: 290px;
+    margin: 5px;
+}
+
+.index__form__image{
+    height: 290px;
+    width: 100%;
+}
+
+.index-form__item-name{
+    height: 30px;
+    width: 100%;
+}
