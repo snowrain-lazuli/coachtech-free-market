@@ -5,28 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Profile extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
+        'user_id',
+        'image_id',
         'post_code',
         'address',
-        'building',
-        'img_id',
-        'card_id',
-    ];
-    protected $guarded = [
-        'id',
-        'user_id',
+        'building'
     ];
 
-    public function users(): BelongsTo
+    protected $guarded = [
+        'id',
+    ];
+
+    //リレーションの設定
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function images(): BelongsTo
+
+    public function image()
     {
         return $this->belongsTo(Image::class);
     }

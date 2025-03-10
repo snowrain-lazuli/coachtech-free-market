@@ -4,30 +4,31 @@
     justify-content: unset;
 }
 
-.app{
+.app {
     display: unset;
     flex-direction: unset;
 }
 
-.mypage__account{
+.mypage__account {
     height: 150px;
     width: 100%;
     border-bottom: 1px solid #000;
     display: grid;
-    grid-template-columns: 200px 200px 200px 200px 200px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: 2fr;
 }
 
-.mypage__account-img{
+.mypage__account-img {
     height: 100px;
     width: 100px;
-    border-radius: 50px;
+    border-radius: 50%;
     background-color: black;
     grid-column: 2 / 3;
 }
 
-.mypage__account-btn{
-    margin: 40px 0px 40px 0px;
-    grid-column: 4/5;
+.mypage__account-btn {
+    margin: 40px 0;
+    grid-column: 4 / 5;
     width: auto;
     max-width: max-content;
     height: auto;
@@ -39,3 +40,35 @@
     padding: 8px;
 }
 
+.mypage__account-recommendation,
+.mypage__account-mypage {
+    margin: 0 50px;
+    grid-row: 2;
+}
+
+.mypage__content {
+    float: left;
+}
+
+.mypage__form {
+    float: left;
+    height: 480px;
+    width: 450px;
+    margin: 10px;
+}
+
+.mypage__form__image {
+    height: 450px;
+    width: 100%;
+}
+
+.mypage-form__item-name {
+    height: 30px;
+    width: 100%;
+}
+
+.mypage__form__paginate {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}

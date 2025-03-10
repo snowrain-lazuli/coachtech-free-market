@@ -13,11 +13,38 @@
   width: 40vw;
   border-radius: 8px;
   background-color: #FFFFFF;
+  box-sizing: border-box;
+  /* パディング込みで幅を計算 */
 }
 
 @media screen and (max-width: 1200px) {
   .login-form__form {
     width: 60vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-form__form {
+    width: 80vw;
+    padding: 40px;
+    /* パディングを調整 */
+  }
+
+  .login-form__inner {
+    flex-direction: column;
+    margin-top: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .login-form__form {
+    width: 90vw;
+    padding: 24px;
+    /* より狭い画面でのパディング調整 */
+  }
+
+  .login-form__btn {
+    width: 100%;
   }
 }
 
@@ -55,7 +82,7 @@
   margin: 60px auto 0;
 }
 
-.login_link {
+.login-form__link {
   margin: 10px auto;
   text-align: center;
 }

@@ -27,23 +27,35 @@
     margin: 0px 50px 0px 50px;
 }
 
-.index__content{
+.index__content {
     float: left;
+    width: 100%;
+    position: relative;
 }
 
 .index__form{
     float: left;
-    height: 320px;
-    width: 290px;
-    margin: 5px;
+    height: 480px;
+    width: 450px;
+    margin: 10px;
 }
 
 .index__form__image{
-    height: 290px;
+    height: 450px;
     width: 100%;
 }
 
 .index-form__item-name{
     height: 30px;
     width: 100%;
+}
+
+.index__form__paginate {
+    position: fixed;
+        bottom: 10px;
+        left: 10px;
+        z-index: 10;
+        padding: 10px;
+        background-color: rgba(255, 255, 255);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }

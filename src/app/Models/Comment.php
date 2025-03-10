@@ -10,16 +10,22 @@ class Comment extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'comments',
+        'content',
+        'user_id',
+        'item_id',
     ];
     protected $guarded = [
         'id',
-        'user_id',
-        'goods_id',
     ];
 
-    public function users(): BelongsTo
+    //リレーションの設定
+    public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
     }
 }

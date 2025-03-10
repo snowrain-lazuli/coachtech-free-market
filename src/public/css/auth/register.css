@@ -13,11 +13,40 @@
   width: 40vw;
   border-radius: 8px;
   background-color: #FFFFFF;
+  box-sizing: border-box;
+  /* パディングを含む幅の計算 */
 }
 
 @media screen and (max-width: 1200px) {
   .register-form__form {
     width: 60vw;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .register-form__form {
+    width: 80vw;
+    padding: 40px;
+    /* 小さな画面でのパディング調整 */
+  }
+
+  .register-form__inner {
+    flex-direction: column;
+    margin-top: 24px;
+    /* 画面幅が小さいときのマージン調整 */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .register-form__form {
+    width: 90vw;
+    padding: 24px;
+    /* より小さい画面でのパディング調整 */
+  }
+
+  .register-form__btn {
+    width: 100%;
+    /* ボタンの幅を100%に */
   }
 }
 
@@ -51,7 +80,7 @@
   margin: 60px auto 0;
 }
 
-.register_link{
-    margin: 10px auto;
+.register-form__link {
+  margin: 10px auto;
   text-align: center;
 }

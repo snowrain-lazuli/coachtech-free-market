@@ -3,7 +3,9 @@ body {
   height: 100%;
 }
 
-body, textarea, input {
+body,
+textarea,
+input {
   color: #000;
 }
 
@@ -28,7 +30,6 @@ input::placeholder {
   background-color: #000;
   text-align: center;
   font-family: serif;
-
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
 }
@@ -36,36 +37,38 @@ input::placeholder {
 .header__heading {
   font-weight: lighter;
   font-size: 32px;
-
   grid-column: 1;
 }
 
-.search__form{
+.search__form {
   font-weight: lighter;
   font-size: 25px;
   padding-left: 10px;
   width: 100%;
   text-align: left;
-
   grid-column: 2;
 }
 
-.header__middle{
+.header__middle {
   background-color: #FFF;
   border-radius: 5px;
   width: 100%;
-
 }
 
 .header__link {
   display: flex;
   justify-content: space-evenly;
   grid-column: 3;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
 }
 
 .header__link-logout,
-.header__link-login,
-.header__link-mypage{
+.header__link-login {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: center;
   font-size: 24px;
   margin: 0 auto;
@@ -74,9 +77,30 @@ input::placeholder {
   color: #FFF;
   text-decoration: none;
   height: 100%;
+  display: flex;
+  align-items: center;
+  grid-column: 1;
+}
+
+.header__link-mypage {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  font-size: 24px;
+  margin: 0 auto;
+  border: none;
+  background-color: #000;
+  color: #FFF;
+  text-decoration: none;
+  height: 100%;
+  grid-column: 2;
 }
 
 .header__link-sell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 24px;
   border-radius: 5px;
   margin: 0 auto;
@@ -86,6 +110,7 @@ input::placeholder {
   color: #000;
   text-decoration: none;
   height: 100%;
+  grid-column: 3;
 }
 
 /* コンテンツ */
@@ -147,4 +172,68 @@ input::placeholder {
   border: 1px solid #8B7969;
   background-color: #8B7969;
   color: #FFF;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .header {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    height: auto;
+  }
+
+  .header__heading {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .search__form {
+    font-size: 20px;
+    padding-left: 0;
+    grid-column: 1;
+  }
+
+  .header__link {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .header__link-logout,
+  .header__link-login,
+  .header__link-mypage,
+  .header__link-sell {
+    font-size: 20px;
+    margin: 5px 0;
+  }
+
+  .content {
+    padding: 24px;
+  }
+
+  .content__heading {
+    font-size: 24px;
+  }
+
+  .pagination {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .header__heading {
+    font-size: 18px;
+  }
+
+  .search__form {
+    font-size: 18px;
+  }
+
+  .content__heading {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 14px;
+    padding: 6px 24px;
+  }
 }

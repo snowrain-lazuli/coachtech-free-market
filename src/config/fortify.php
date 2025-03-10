@@ -145,16 +145,18 @@ return [
     */
 
     'features' => [
-        Features::registration(),
-        Features::resetPasswords(),
-        // Features::emailVerification(),
-        Features::updateProfileInformation(),
-        Features::updatePasswords(),
-        Features::twoFactorAuthentication([
+        Features::registration(), // 新規登録
+        Features::resetPasswords(), // パスワードリセット
+        Features::emailVerification(), // メール認証
+        Features::updateProfileInformation(), // 登録情報の更新
+        Features::updatePasswords(), // パスワードの更新
+        Features::twoFactorAuthentication([ // 2段階認証
             'confirm' => true,
             'confirmPassword' => true,
             // 'window' => 0,
         ]),
     ],
+
+    'redirects' => ['logout' => '/',],  // ログアウト時に/のURLにリダイレクト
 
 ];

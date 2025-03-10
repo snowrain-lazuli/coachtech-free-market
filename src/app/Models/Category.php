@@ -17,8 +17,9 @@ class Category extends Model
         'id',
     ];
 
+    //リレーションの設定
     public function items()
     {
-        return $this->hasMany(Item::class);
+        return $this->belongsToMany(Item::class, 'item_categories', 'category_id', 'item_id');
     }
 }

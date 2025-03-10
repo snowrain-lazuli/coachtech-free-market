@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/auth/register.css')}}">
+<link rel="stylesheet" href="{{ asset('css/auth/register.css') }}">
 @endsection
 
 @section('content')
@@ -21,7 +21,7 @@
             </div>
             <div class="register-form__group">
                 <label class="register-form__label" for="email">メールアドレス</label>
-                <input class="register-form__input" type="mail" name="email" id="email">
+                <input class="register-form__input" type="email" name="email" id="email">
                 <p class="register-form__error-message">
                     @error('email')
                     {{ $message }}
@@ -38,19 +38,20 @@
                 </p>
             </div>
             <div class="register-form__group">
-                <label class="register-form__label" for="password">確認用パスワード</label>
-                <input class="register-form__input" type="password" name="password_check" id="password_check">
+                <label class="register-form__label" for="password_confirmation">確認用パスワード</label>
+                <input class="register-form__input" type="password" name="password_confirmation"
+                    id="password_confirmation">
                 <p class="register-form__error-message">
-                    @error('password_check')
+                    @error('password_confirmation')
                     {{ $message }}
                     @enderror
                 </p>
             </div>
             <input class="register-form__btn btn" type="submit" value="登録する">
-            <div class="register_link">
-                <a href="/login">ログインはこちら
+            <div class="register-form__link">
+                <a href="/login">ログインはこちら</a>
             </div>
         </form>
     </div>
 </div>
-@endsection('content')
+@endsection

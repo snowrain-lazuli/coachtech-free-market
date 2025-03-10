@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class UsersTableSeeder extends Seeder
 {
@@ -11,5 +12,8 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run() {}
+    public function run()
+    {
+        User::factory()->count(10)->create();
+    }
 }

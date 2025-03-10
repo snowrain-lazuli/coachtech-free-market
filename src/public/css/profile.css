@@ -1,41 +1,52 @@
 .content {
-    background-color: #FFF;
+    display: unset;
+    flex-direction: unset;
+    justify-content: unset;
 }
 
-.mypage-form__inner {
+.app {
+    display: unset;
+    flex-direction: unset;
+}
+
+.profile-form{
+    height: 100%;
+}
+
+.profile-form__inner {
     display: flex;
     justify-content: center;
     margin-top: 48px;
 }
 
-.mypage-form__form {
+.profile-form__form {
     padding: 64px 96px;
-    width: 40vw;
+    width: 70%;
     border-radius: 8px;
     background-color: #FFFFFF;
 }
 
 @media screen and (max-width: 1200px) {
-    .mypage-form__form {
+    .profile-form__form {
         width: 60vw;
     }
 }
 
-.mypage-form__group {
+.profile-form__group {
     margin-top: 32px;
 }
 
-.mypage-form__group:first-of-type {
+.profile-form__group:first-of-type {
     margin-top: 0;
 }
 
-.mypage-form__label {
+.profile-form__label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
 }
 
-.mypage-form__input {
+.profile-form__input {
     display: block;
     padding: 8px 12px;
     width: 100%;
@@ -47,28 +58,29 @@
     font-family: serif;
 }
 
-.mypage-form__error-message {
+.profile-form__error-message {
     color: #FF9494;
 }
 
-.mypage-form__btn {
+.profile-form__btn {
     margin: 60px auto 0;
 }
 
-.mypage_link {
+.profile_link {
     margin: 10px auto;
     text-align: center;
 }
 
-.mypage-form__label-img{
+.profile-form__label-img{
     height: 100px;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(4,1fr);
     grid-template-rows: 100px;
 }
 
-.mypage-form__span-img{
+
+.profile-form__span-img{
     display: block;
     width: 100px;
     height: 100px;
@@ -79,7 +91,10 @@
     grid-column: 1;
 }
 
-.mypage-form__span-btn {
+.profile-form__span-btn {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     width: auto;
     max-width: max-content;
     height: auto;
@@ -88,7 +103,7 @@
     border: 1px solid #FF5555;
     background-color: #fff;
     grid-column: 2;
-    margin-top: auto;
+    margin: auto 0 auto 10px;
     display: block;
     padding: 8px;
 }

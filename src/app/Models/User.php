@@ -45,23 +45,34 @@ class User extends Authenticatable
     ];
 
     //リレーションの設定
-    public function items(): HasMany
+    public function profile()
+    {
+        return $this->hasOne(Profile::class, 'user_id');
+    }
+
+    public function items()
     {
         return $this->hasMany(Item::class);
     }
 
-    public function profile(): HasMany
+    // User.php モデル
+    public function image()
     {
-        return $this->hasMany(Profile::class);
+        return $this->hasOne(Image::class, 'user_id');
     }
 
-    public function carts(): HasMany
-    {
-        return $this->hasMany(Cart::class);
-    }
-
-    public function Comments(): HasMany
+    public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
     }
 }
