@@ -17,8 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('item_id')->constrained()->cascadeOnDelete();
-            $table->bigInteger('card_info')->length(16);
-            $table->tinyInteger('status');
             $table->string('paid_at');
             $table->timestamps();
         });

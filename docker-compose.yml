@@ -1,4 +1,4 @@
-version: '2.8'
+version: '3.8'
 
 services:
     nginx:
@@ -40,6 +40,3 @@ services:
             - mysql
         ports:
             - 8080:80
-
-
-

@@ -17,6 +17,8 @@ use App\Models\Favorite;
 use App\Models\Comment;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 
 class ContentsController extends Controller
@@ -328,50 +330,51 @@ class ContentsController extends Controller
         // ログインユーザーID取得
         $id = Auth::id();
 
-
         $categories = Category::all();
-
-        // sellページからの場合
-        if ($request->isMethod('post')) {
-
-            // sellページからのリクエストの場合はSellRequestを使用
-            $sellRequest = new SellRequest();
-            $validated = $request->validate($sellRequest->rules());
-
-            $contact = $validated;
-
-            //入力データを取得
-            $contact = $request->only(['condition', 'name', 'brand', 'details', 'price']);
-            $item_categories = $request->only(['categories']);
-            $image = $request->file('image');
-
-            //ファイルの保存
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('public', $imageName);
-
-            // 新規作成
-            $item = Item::create([
-                'user_id' => $id,
-                'condition' => $contact['condition'],
-                'name' => $contact['name'],
-                'brand' => $contact['brand'],
-                'details' => $contact['details'],
-                'price' => $contact['price'],
-            ]);
-
-            $imageRecord = Image::create([
-                'item_id' => $item->id,
-                'img_url' => '/storage/' . $imageName
-            ]);
-
-            $categoryIds = $item_categories['categories'];
-
-            // ItemとCategoryを中間テーブルに関連付ける
-            $item->categories()->attach($categoryIds);
-        }
 
         return view('sell', compact('categories'));
     }
+
+    public function createSell(SellRequest $request)
+    {
+        // ログインユーザーID取得
+        $id = Auth::id();
+
+
+        $categories = Category::all();
+
+        //入力データを取得
+        $contact = $request->only(['condition', 'name', 'brand', 'details', 'price']);
+        $item_categories = $request->only(['categories']);
+        $image = $request->file('image');
+        //ファイルの保存
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $imagePath = $image->storeAs('public', $imageName);
+
+        // 新規作成
+        $item = Item::create([
+            'user_id' => $id,
+            'condition' => $contact['condition'],
+            'name' => $contact['name'],
+            'brand' => $contact['brand'],
+            'details' => $contact['details'],
+            'price' => $contact['price'],
+        ]);
+
+        $imageRecord = Image::create([
+            'item_id' => $item->id,
+            'img_url' => '/storage/' . $imageName
+        ]);
+
+        $categoryIds = $item_categories['categories'];
+
+        // ItemとCategoryを中間テーブルに関連付ける
+        $item->categories()->attach($categoryIds);
+
+        return view('sell', compact('categories'));
+    }
+
+
     public function purchase(Request $request, $item_id)
     {
         // ログインユーザーID取得
@@ -403,12 +406,38 @@ class ContentsController extends Controller
         // ログインユーザーID取得
         $id = Auth::id();
 
-        $payment = Payment::create([
-            'user_id' => $id,
-            'item_id' => $item_id
+        // Stripeの秘密鍵を設定
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        // 商品情報の取得
+        $contact = Item::find($item_id);
+
+        // PaymentIntentの作成
+        $paymentIntent = PaymentIntent::create([
+            'amount' => $contact->price * 100, // 円から銭へ
+            'currency' => 'jpy',
+            'metadata' => [
+                'contact_id' => $contact->id,
+            ],
         ]);
 
-        return view('item');
+        $clientSecret = $paymentIntent->client_secret;
+
+        if ($paymentIntent->status == 'succeeded') {
+            $payment = Payment::create([
+                'user_id' => $id,
+                'item_id' => $item_id
+            ]);
+        }
+
+
+        return view('payment.stripe', compact('contact', 'clientSecret'));
+    }
+
+    public function paymentSuccess()
+    {
+        // 支払い成功後はindexページへ
+        return redirect()->route('index');
     }
 
     public function address($item_id)

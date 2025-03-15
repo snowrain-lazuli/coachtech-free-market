@@ -19,8 +19,6 @@ class PaymentFactory extends Factory
             'user_id' => User::inRandomOrder()->first()->id,
             'item_id' =>
             Item::inRandomOrder()->first()->id,
-            'card_info' => $this->faker->creditCardNumber(),
-            'status' => $this->faker->numberBetween(1, 2),
             'paid_at' => $this->faker->date('Y/m'),
         ];
     }

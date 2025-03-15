@@ -24,11 +24,12 @@ class SellRequest extends FormRequest
     public function rules()
     {
         return [
+            'image' => 'required|file|mimes:jpeg,png,jpg,gif|max:51200',
             'condition' => 'required',
             'name' => 'required',
             'brand' => 'required',
             'details' => 'required',
-            'price' => 'required|Integer',
+            'price' => 'required|Integer|min:1',
             'categories' => 'required|array',
         ];
     }
@@ -40,12 +41,14 @@ class SellRequest extends FormRequest
     public function messages()
     {
         return [
+            'image.required' => '画像をアップロードしてください。',
             'condition.required' => '状態を選択してください。',
             'name.required' => '商品名を入力してください。',
             'brand.required' => 'ブランド名を入力してください。',
             'details.required' => '商品の説明を入力してください。',
             'price.required' => '価格を入力してください。',
             'price.Integer' => '価格は整数値で入力してください。',
+            'price.min' => '価格は0円以上で入力してください。',
             'categories' => 'カテゴリーは1つ以上選択してください。',
         ];
     }

@@ -63,3 +63,32 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCondition();
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    // 事前にbladeで埋め込まれた情報を取得
+    const stripePublicKey = document.getElementById("stripe-public-key").value;
+    const clientSecret = document.getElementById("client-secret").value;
+
+    // Stripeインスタンスを作成
+    const stripe = Stripe(stripePublicKey);
+    const elements = stripe.elements();
+    const card = elements.create("card");
+    card.mount("#stripe-element");
+
+    const form = document.getElementById("payment-form");
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+            },
+        });
+
+        if (error) {
+            const errorElement = document.getElementById("stripe-errors");
+            errorElement.textContent = error.message;
+        } else if (paymentIntent.status === "succeeded") {
+            window.location.href = "/payment/stripe";
+        }
+    });
+});

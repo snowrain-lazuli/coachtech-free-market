@@ -20,6 +20,8 @@ class CreateImagesTable extends Migration
             $table->foreignId('item_id')->nullable()->constrained()->cascadeOnDelete();
             $table->string('img_url');
             $table->timestamps();
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
         });
         DB::statement('ALTER TABLE images ADD CONSTRAINT check_user_or_item CHECK (user_id IS NOT NULL OR item_id IS NOT NULL)');
 

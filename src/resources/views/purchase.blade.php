@@ -72,7 +72,7 @@
     </div>
 
     <div class="purchase-form">
-        <form class="purchase-form__form" action="/payment/{{ $contact->id }}" method="get">
+        <form class="purchase-form__form" action="/payment/{{ $contact->id }}" method="post">
             @csrf
             <table class="purchase__status">
                 <tr>

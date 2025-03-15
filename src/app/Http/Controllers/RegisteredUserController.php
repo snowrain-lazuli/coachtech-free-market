@@ -12,6 +12,7 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
 use Laravel\Fortify\Fortify;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class RegisteredUserController extends Controller
 {
@@ -64,6 +65,11 @@ class RegisteredUserController extends Controller
 
         $this->guard->login($user);
 
-        return app(RegisterResponse::class);
+        return new class implements RegisterResponse {
+            public function toResponse($request)
+            {
+                return redirect()->route('showProfile');
+            }
+        };
     }
 }

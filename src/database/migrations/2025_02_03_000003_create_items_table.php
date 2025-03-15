@@ -19,7 +19,7 @@ class CreateItemsTable extends Migration
             $table->tinyInteger('condition');
             $table->string('name', 100);
             $table->string('brand', 100);
-            $table->string('details', 5000);
+            $table->text('details');
             $table->integer('price');
             $table->timestamps();
         });
