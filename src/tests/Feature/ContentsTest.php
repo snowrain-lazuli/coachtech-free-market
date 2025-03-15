@@ -62,7 +62,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_redirect_on_post_request_in_index_method()
+    public function test_index_page_null()
     {
         $response = $this->post(route('index'), ['page' => null]);
 
@@ -70,7 +70,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_display_items_in_index_method()
+    public function test_index_contacts()
     {
         $response = $this->get(route('index'));
 
@@ -79,7 +79,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_toggle_favorite()
+    public function test_toggle_favorite()
     {
         // お気に入り追加
         $response = $this->post(route('item.favorite', ['item_id' => $this->item->id]));
@@ -93,7 +93,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_item_details_in_item_method()
+    public function test_item()
     {
         $response = $this->get(route('item', ['item_id' => $this->item->id]));
 
@@ -103,7 +103,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_create_comment_on_item()
+    public function test_item_comment()
     {
         $commentData = ['content' => 'Great item!'];
 
@@ -114,7 +114,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_show_mypage_with_items()
+    public function test_mypage()
     {
         $response = $this->get(route('mypage'));
 
@@ -124,7 +124,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_search_items()
+    public function test_search()
     {
 
         $response = $this->post(route('search', ['item' => $this->item->name]));
@@ -134,7 +134,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_update_profile()
+    public function test_profile()
     {
         $profileData = [
             'name' => 'New Name',
@@ -160,7 +160,7 @@ class ContentsTest extends TestCase
 
 
     /** @test */
-    public function test_sell_creates_item_and_image_and_attaches_categories()
+    public function test_sell_create()
     {
         // ユーザーがログインしているか確認
         $this->assertAuthenticatedAs($this->user);
@@ -216,7 +216,7 @@ class ContentsTest extends TestCase
 
 
 
-    public function test_sell_shows_categories_page()
+    public function test_sell_show()
     {
         // ユーザーがログインしているか確認
         $this->assertAuthenticatedAs($this->user);
@@ -241,7 +241,7 @@ class ContentsTest extends TestCase
 
 
     /** @test */
-    public function it_can_purchase_item_in_purchase_method()
+    public function test_purchase()
     {
         $purchaseData = [
             'post_code' => '1234567',
@@ -256,7 +256,7 @@ class ContentsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_process_payment_in_payment_method()
+    public function test_payment()
     {
         $response = $this->post(route('payment', ['item_id' => $this->item->id]));
 

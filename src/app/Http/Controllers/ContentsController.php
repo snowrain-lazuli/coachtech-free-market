@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
-use App\Http\Requests\AddressRequest;
 use App\Http\Requests\SellRequest;
 use App\Http\Requests\CommentRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Item;
 use App\Models\Image;
 use App\Models\Profile;
@@ -113,7 +111,6 @@ class ContentsController extends Controller
                 ]);
             }
 
-
             $comments = $contact->comments()
                 ->with('user')
                 ->orderBy('created_at', 'desc')
@@ -133,8 +130,6 @@ class ContentsController extends Controller
         return view('item', compact('contact', 'comments', 'count_data', 'profiles', 'isPurchased'));
     }
 
-
-
     public function mypage(Request $request)
     {
         // ログインユーザーID取得
@@ -144,7 +139,6 @@ class ContentsController extends Controller
         $profiles = User::where('id', $id)
             ->with('image')
             ->first();
-
 
         // POSTリクエストの場合、GETにリダイレクト
         if ($request->isMethod('post')) {
@@ -178,8 +172,6 @@ class ContentsController extends Controller
         // 'mypage'ビューに渡す
         return view('mypage', compact('profiles', 'contacts'));
     }
-
-
 
     public function search(Request $request)
     {
@@ -323,8 +315,6 @@ class ContentsController extends Controller
         }
     }
 
-
-
     public function sell(Request $request)
     {
         // ログインユーザーID取得
@@ -339,7 +329,6 @@ class ContentsController extends Controller
     {
         // ログインユーザーID取得
         $id = Auth::id();
-
 
         $categories = Category::all();
 
@@ -373,7 +362,6 @@ class ContentsController extends Controller
 
         return view('sell', compact('categories'));
     }
-
 
     public function purchase(Request $request, $item_id)
     {
@@ -429,7 +417,6 @@ class ContentsController extends Controller
                 'item_id' => $item_id
             ]);
         }
-
 
         return view('payment.stripe', compact('contact', 'clientSecret'));
     }

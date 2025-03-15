@@ -12,7 +12,6 @@ use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
 use Laravel\Fortify\Fortify;
 use App\Http\Requests\RegisterRequest;
-use Illuminate\Support\Facades\Redirect;
 
 class RegisteredUserController extends Controller
 {
