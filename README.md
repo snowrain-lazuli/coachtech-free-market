@@ -43,7 +43,7 @@ php artisan key:generate
 
 7. APIキーの確認
 - 確認用URL：https://dashboard.stripe.com/test/apikeys
-- 公開可能キーを4で記載したSTRIPE_KEY=に、
+- 公開可能キーを4で記載したSTRIPE_KEY=に記載する
 - シークレットキーを4で記載したSTRIPE_SECRET=に記載する
 
 8. マイグレーションの実行
@@ -64,7 +64,7 @@ php artisan db:seed
 - stripe
 
 ## ER図
-![alt](erd.png)
+![alt](src/public/img/er.png)
 
 ## URL
 - 開発環境：http://localhost/
