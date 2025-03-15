@@ -27,18 +27,31 @@ DB_PORT=3306
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
+
+STRIPE_KEY=
+STRIPE_SECRET=
 ```
+
 5. アプリケーションキーの作成
 ``` bash
 php artisan key:generate
 ```
 
-6. マイグレーションの実行
+6. 管理用のStripeの作成・ログイン
+- ログインURL：https://dashboard.stripe.com/login
+- 登録URL：https://dashboard.stripe.com/register
+
+7. APIキーの確認
+- 確認用URL：https://dashboard.stripe.com/test/apikeys
+- 公開可能キーを4で記載したSTRIPE_KEY=に、
+- シークレットキーを4で記載したSTRIPE_SECRET=に記載する
+
+8. マイグレーションの実行
 ``` bash
 php artisan migrate
 ```
 
-7. シーディングの実行
+9. シーディングの実行
 ``` bash
 php artisan db:seed
 ```
@@ -47,6 +60,8 @@ php artisan db:seed
 - PHP8.4.2
 - Laravel8.83.29
 - MySQL9.0.1
+- Node.js18.20.6
+- stripe
 
 ## ER図
 ![alt](erd.png)
