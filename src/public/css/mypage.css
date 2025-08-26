@@ -1,53 +1,104 @@
-.content {
-    display: unset;
-    flex-direction: unset;
-    justify-content: unset;
-}
-
-.app {
-    display: unset;
-    flex-direction: unset;
-}
-
+/* アカウント全体 */
 .mypage__account {
-    height: 150px;
     width: 100%;
+}
+
+/* 上段：画像＋プロフィール編集 */
+.mypage__account-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+}
+
+/* アカウント画像 */
+.mypage__account-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #000;
+}
+
+/* プロフィール編集ボタン */
+.mypage__account-btn {
+    border-radius: 5px;
+    color: #FF5555;
+    border: 1px solid #FF5555;
+    background-color: #fff;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* 下段：タブ文字ボタン表示 */
+.mypage__account-tabs {
+    display: flex;
+    gap: 20px;
+    /* 文字間のスペース */
+    padding: 10px 20px;
+}
+
+.mypage__account-tab-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+}
+
+/* ホバーやクリック時も見た目は文字だけ */
+.mypage__account-tab-btn:hover {
+    text-decoration: underline;
+}
+
+/* 下線 */
+.mypage__account-divider {
     border-bottom: 1px solid #000;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: 2fr;
+    margin-top: 5px;
+}
+.mypage__account-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* 左端: 画像+名前、右端:ボタン */
+    width: 80%;
+    margin: 0 auto;
+    /* 横中央寄せ */
+    padding: 20px 0;
+}
+
+.mypage__account-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    /* 画像と名前の間隔 */
 }
 
 .mypage__account-img {
     height: 100px;
     width: 100px;
     border-radius: 50%;
-    background-color: black;
-    grid-column: 2 / 3;
+    object-fit: cover;
 }
 
-.mypage__account-btn {
-    margin: 40px 0;
-    grid-column: 4 / 5;
-    width: auto;
-    max-width: max-content;
-    height: auto;
-    border-radius: 5px;
-    color: #FF5555;
-    border: 1px solid #FF5555;
-    background-color: #fff;
-    display: block;
-    padding: 8px;
+.mypage__account-userinfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* 画像寄りに揃える */
 }
 
-.mypage__account-recommendation,
-.mypage__account-mypage {
-    margin: 0 50px;
-    grid-row: 2;
-}
-
-.mypage__content {
-    float: left;
+.mypage__account-username {
+    font-family: Inter;
+    font-weight: 700;
+    font-style: Bold;
+    font-size: 36px;
+    line-height: 100%;
+    letter-spacing: 0%;
 }
 
 .mypage__form {
@@ -71,4 +122,61 @@
     position: fixed;
     bottom: 10px;
     left: 10px;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.image-badge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 24px;
+    height: 24px;
+    background-color: #FF0000;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.mypage__account-rating {
+    display: inline-block;
+    font-size: 24px;
+    /* 星の大きさ */
+    line-height: 1;
+}
+
+.stars-outer {
+    position: relative;
+    display: inline-block;
+    color: #D9D9D9;
+    /* 空の星の色 */
+}
+
+.stars-outer::before {
+    content: '★★★★★';
+    font-family: inherit;
+    /* フォントに合わせる */
+}
+
+.stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #FFF048;
+    /* 塗りの色 */
+}
+
+.stars-inner::before {
+    content: '★★★★★';
+    font-family: inherit;
 }

@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContentsController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\Auth\VerificationController;
 
 use App\Http\Controllers\RegisteredUserController;
@@ -38,13 +39,44 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypage/profile', [ContentsController::class, 'showProfile'])->name('showProfile');
     Route::post('/mypage', [ContentsController::class, 'mypage']);
     Route::get('/mypage', [ContentsController::class, 'mypage'])->name('mypage');
-    Route::get('/purchase/{item_id}', [ContentsController::class, 'purchase'])->name('purchase');
-    Route::post('/purchase/{item_id}', [ContentsController::class, 'purchase'])->name('purchase');
-    Route::get('/purchase/address/{item_id}', [ContentsController::class, 'address']);
+    Route::post('/item/{item_id}/favorite', [ContentsController::class, 'toggleFavorite'])->name('item.favorite');
     Route::post('/sell', [ContentsController::class, 'createSell'])->name('createSell');
     Route::get('/sell', [ContentsController::class, 'sell'])->name('sell');
-    Route::post('/item/{item_id}/favorite', [ContentsController::class, 'toggleFavorite'])->name('item.favorite');
-    Route::get('/payment/{contactId}', [ContentsController::class, 'showPaymentForm'])->name('payment.form');
-    Route::post('/payment/{contactId}', [ContentsController::class, 'payment'])->name('payment');
-    Route::get('/payment/success', [ContentsController::class, 'paymentSuccess'])->name('payment.stripe');
+    // 購入ページ表示
+    Route::get('/purchase/{item_id}', [PurchaseController::class, 'purchase'])->name('purchase');
+    Route::post('/purchase/{item_id}', [PurchaseController::class, 'purchasePost'])->name('purchase.post');
+
+    // 配送先変更ページ
+    Route::get('/purchase/address/{item_id}', [PurchaseController::class, 'address'])->name('purchase.address');
+
+    // Stripe PaymentIntent作成（Ajax）
+    Route::post('/purchase/{item_id}/payment-intent', [PurchaseController::class, 'createPaymentIntent'])->name('purchase.paymentIntent');
+
+    // 決済成功後のDB更新（Ajax）
+    Route::post('/purchase/payment/success', [PurchaseController::class, 'paymentSuccess'])->name('purchase.paymentSuccess');
+
+    // Stripe決済画面
+    Route::get('/payment/stripe/{item_id}', [PurchaseController::class, 'showStripePayment'])->name('payment.stripe');
+    Route::get('/payment/intent/{item_id}', [PurchaseController::class, 'createPaymentIntent'])->name('payment.intent');
+
+    // 取引チャット画面
+    Route::get('/purchases/{payment_id}/chat', [PurchaseController::class, 'chat'])->name('purchase.chat');
+
+    // メッセージ投稿
+    Route::post('/purchases/{payment_id}/messages', [PurchaseController::class, 'store'])->name('messages.store');
+
+    // メッセージ編集
+    Route::patch('/messages/{message}', [PurchaseController::class, 'update'])->name('messages.update');
+
+    // メッセージ削除
+    Route::delete('/messages/{message}', [PurchaseController::class, 'destroy'])->name('messages.destroy');
+
+    // 取引完了
+    Route::post('/purchases/complete/{payment_id}', [PurchaseController::class, 'complete'])->name('purchase.complete');
+
+    Route::post('/reviews/{payment_id}', [ReviewController::class, 'store'])->name('reviews.store');
+
+    //チャット保存用
+    Route::post('/chat/draft/save', [PurchaseController::class, 'save']);
+    Route::get('/chat/draft/load/{payment_id}', [PurchaseController::class, 'load']);
 });

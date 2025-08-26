@@ -1,4 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/purchase.js": "/js/purchase.js",
+    "/js/stripe.js": "/js/stripe.js",
+    "/js/chat.js": "/js/chat.js",
+    "/js/mypage.js": "/js/mypage.js",
+    "/js/evaluation.js": "/js/evaluation.js",
     "/css/app.css": "/css/app.css"
 }

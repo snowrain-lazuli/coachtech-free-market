@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Profile;
+use App\Models\User;
 
 class ProfilesTableSeeder extends Seeder
 {
@@ -15,6 +16,8 @@ class ProfilesTableSeeder extends Seeder
      */
     public function run()
     {
-        Profile::factory()->count(10)->create();
+        User::all()->each(fn($user) =>
+        Profile::factory()->create(['user_id' => $user->id])
+);
     }
 }

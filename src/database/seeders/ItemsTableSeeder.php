@@ -27,7 +27,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'とけい',
                 ],
                 [
-                    'user_id' => 2,
+                    'user_id' => 1,
                     'name' => 'HDD',
                     'condition' => '2',
                     'details' => '高速で信頼性の高いハードディスク',
@@ -35,7 +35,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'でぃすく',
                 ],
                 [
-                    'user_id' => 3,
+                    'user_id' => 1,
                     'name' => '玉ねぎ3束',
                     'condition' => '3',
                     'details' => '新鮮な玉ねぎ3束のセット',
@@ -43,7 +43,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'たべもの',
                 ],
                 [
-                    'user_id' => 4,
+                    'user_id' => 1,
                     'name' => '革靴',
                     'condition' => '4',
                     'details' => 'クラシックなデザインの革靴',
@@ -51,7 +51,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'くつ',
                 ],
                 [
-                    'user_id' => 5,
+                    'user_id' => 1,
                     'name' => 'ノートPC',
                     'condition' => '1',
                     'details' => '高性能なノートパソコン',
@@ -59,7 +59,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'PC',
                 ],
                 [
-                    'user_id' => 6,
+                    'user_id' => 2,
                     'name' => 'マイク',
                     'condition' => '2',
                     'details' => '高音質のレコーディング用マイク',
@@ -67,7 +67,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'シュアー',
                 ],
                 [
-                    'user_id' => 7,
+                    'user_id' => 2,
                     'name' => 'ショルダーバッグ',
                     'condition' => '3',
                     'details' => 'おしゃれなショルダーバッグ',
@@ -75,7 +75,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'ばっぐ',
                 ],
                 [
-                    'user_id' => 8,
+                    'user_id' => 2,
                     'name' => 'タンブラー',
                     'condition' => '4',
                     'details' => '使いやすいタンブラー',
@@ -83,7 +83,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'すたば',
                 ],
                 [
-                    'user_id' => 9,
+                    'user_id' => 2,
                     'name' => 'コーヒーミル',
                     'condition' => '1',
                     'details' => '手動のコーヒーミル',
@@ -91,7 +91,7 @@ class ItemsTableSeeder extends Seeder
                     'brand' => 'たりーず',
                 ],
                 [
-                    'user_id' => 10,
+                    'user_id' => 2,
                     'name' => 'メイクセット',
                     'condition' => '2',
                     'details' => '便利なメイクアップセット',

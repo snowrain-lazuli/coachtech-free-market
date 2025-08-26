@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfilesTableSeeder::class);
         $this->call(ItemCategoriesTableSeeder::class);
         $this->call(CommentsTableSeeder::class);
-        $this->call(PaymentsTableSeeder::class);
         $this->call(FavoritesTableSeeder::class);
     }
 }

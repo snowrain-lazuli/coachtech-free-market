@@ -10,10 +10,11 @@ class Payment extends Model
 
     use HasFactory;
     protected $fillable = [
-    'user_id',
-    'item_id',
-    'status',
-    'paid_at'];
+        'user_id',
+        'item_id',
+        'status',
+        'paid_at'
+    ];
 
     protected $guarded = [
         'id',
@@ -24,9 +25,18 @@ class Payment extends Model
     {
         return $this->belongsTo(User::class);
     }
-
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function review()
+    {
+        return $this->hasOne(Review::class);
     }
 }

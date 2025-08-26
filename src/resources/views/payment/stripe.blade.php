@@ -12,17 +12,34 @@
 
 <div class="payment__form">
     <form id="payment-form">
-        <div id="stripe-element"></div>
+        @csrf
+        <div class="card-wrapper">
+            <table class="card-table">
+                <tr>
+                    <td class="label-cell">カード情報</td>
+                    <td class="input-cell">
+                        <div id="stripe-element"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label-cell">カード名義</td>
+                    <td class="input-cell">
+                        <input type="text" id="cardholder-name">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <div id="stripe-errors" role="alert"></div>
         <button type="submit" class="payment__btn">支払いを完了する</button>
     </form>
 </div>
 
-<input type="hidden" id="stripe-public-key" value="{{ config('services.stripe.public') }}">
-<input type="hidden" id="client-secret" value="{{ $clientSecret }}">
+<input type="hidden" id="stripe-public-key" value="{{ config('services.stripe.key') }}">
+<input type="hidden" id="item-id" value="{{ $contact->id }}">
 @endsection
 
-@section('js')
+@section('scripts')
 <script src="https://js.stripe.com/v3/"></script>
-<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/stripe.js') }}"></script>
 @endsection

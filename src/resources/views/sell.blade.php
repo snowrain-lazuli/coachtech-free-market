@@ -4,25 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/sell.css') }}">
 @endsection
 
-@section('link')
-<form class="search__form" action="/search" method="post">
-    @csrf
-    <input class="header__middle" type="text" name="search" placeholder="なにをお探しですか？">
-</form>
-<div class="header__link">
-    <form action="/logout" method="post">
-        @csrf
-        <input class="header__link-logout" type="submit" value="ログアウト">
-    </form>
-    <form action="/mypage" method="get">
-        <input class="header__link-mypage" type="submit" value="マイページ">
-    </form>
-    <form action="/sell" method="get">
-        <input class="header__link-sell" type="submit" value="出品">
-    </form>
-</div>
-@endsection
-
 @section('content')
 <div class="sell-form">
     <h1 class="sell-form__heading content__heading">商品の出品</h1>

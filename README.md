@@ -1,18 +1,88 @@
-# coachtech フリマアプリ
+# Coachtech フリマアプリ
+
+## 概要説明（どんなアプリか）
+本アプリケーションは、フリマアプリです。
+ユーザーは商品を出品・購入でき、購入後は出品者とコメントを交わしたり、取引完了後に評価を残すことができます。
+
+![トップ画面](top.png)
+
+---
+
+## アプリケーション URL
+- 開発環境：http://localhost/
+- phpMyAdmin：http://localhost:8080/
+
+---
+
+## テスト用アカウント
+
+1. テストユーザー1
+   - name: TestUser1
+   - Email: test1@example.com
+   - Password: password
+
+2. テストユーザー2
+   - name: TestUser2
+   - Email: test2@example.com
+   - Password: password
+
+2. テストユーザー3
+   - name: TestUser3
+   - Email: test3@example.com
+   - Password: password
+
+> テスト用アカウントの内容変更は、`src/database/seeders/UserTableSeeder.php` ファイルを適宜編集してください。
+
+---
+
+## 機能一覧
+
+- 会員登録
+- ログイン / ログアウト
+- 商品一覧取得
+- 商品詳細取得
+- 商品出品
+- 商品購入
+- 購入後の取引チャット
+- 取引完了処理・評価
+- お気に入り追加 / 削除
+- ユーザーマイページ表示
+- ユーザー情報編集
+
+---
+
+## 使用技術（実行環境）
+
+- PHP 8.4.2
+- Laravel 8.83.29
+- Docker 27.3.1
+- MySQL 9.0.1
+- Node.js 18.20.6
+- Stripe
+- JavaScript 18.20.6
+
+---
+
+## ER図
+![ER図](src/public/img/er.png)
+
+---
 
 ## 環境構築
-**Dockerビルド**
+
+### Dockerビルド
 1. `git clone git@github.com:snowrain-lazuli/coachtech-free-market.git`
 2. DockerDesktopアプリを立ち上げる
 3. `docker-compose up -d --build`
 
-> *MacのM1・M2チップのPCの場合、`no matching manifest for linux/arm64/v8 in the manifest list entries`のメッセージが表示されビルドができないことがあります。
-エラーが発生する場合は、docker-compose.ymlファイルの「mysql」内に「platform」の項目を追加で記載してください*
-``` bash
+> *MacのM1・M2チップのPCの場合、`no matching manifest for linux/arm64/v8 in the manifest list entries`のメッセージが表示されビルドができないことがあります。  
+> エラーが発生する場合は、docker-compose.ymlファイルの「mysql」内に「platform」の項目を追加してください*
+```yaml
 mysql:
-    platform: linux/x86_64(この文追加)
+    platform: linux/x86_64 # この行を追加
     image: mysql:9.0.1
     environment:
+
 ```
 
 **Laravel環境構築**
@@ -55,17 +125,3 @@ php artisan migrate
 ``` bash
 php artisan db:seed
 ```
-
-## 使用技術(実行環境)
-- PHP8.4.2
-- Laravel8.83.29
-- MySQL9.0.1
-- Node.js18.20.6
-- stripe
-
-## ER図
-![alt](src/public/img/er.png)
-
-## URL
-- 開発環境：http://localhost/
-- phpMyAdmin:：http://localhost:8080/

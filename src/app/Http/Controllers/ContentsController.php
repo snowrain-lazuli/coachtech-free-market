@@ -14,6 +14,7 @@ use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Comment;
 use App\Models\Payment;
+use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
@@ -38,9 +39,15 @@ class ContentsController extends Controller
 
         //'page' パラメータに応じて処理を分ける
         if (!Auth::check() || $page === null) {
-            $contacts = Item::where('user_id', '!=', $id)->with(['image' => function ($query) {
-                $query->select('item_id', 'img_url');
-            }])->inRandomOrder()->paginate(8);
+            $excludedItemIds = Payment::pluck('item_id'); // payments にある item_id を取得
+
+            $contacts = Item::where('user_id', '!=', $id)
+                ->whereNotIn('id', $excludedItemIds) // 除外条件
+                ->with(['image' => function ($query) {
+                    $query->select('item_id', 'img_url');
+                }])
+                ->inRandomOrder()
+                ->paginate(8);
         } elseif ($page == 'mylist' && Auth::check()) {
             $contacts = Item::whereHas('favorites', function ($query) use ($id) {
                 $query->where('user_id', $id);
@@ -132,46 +139,123 @@ class ContentsController extends Controller
 
     public function mypage(Request $request)
     {
-        // ログインユーザーID取得
         $id = Auth::id();
 
-        // ログインユーザーの画像と名前を取り出す
-        $profiles = User::where('id', $id)
-            ->with('image')
-            ->first();
+        // ログインユーザーの画像と名前
+        $profiles = User::with('image')->find($id);
 
-        // POSTリクエストの場合、GETにリダイレクト
+        // ログインユーザーの評価
+        $receivedReviews = Review::where('user_id', '!=', $id)
+            ->whereHas('payment', function ($q) use ($id) {
+                $q->where('user_id', $id)               // 自分が購入者
+                    ->orWhereHas('item', fn($q2) => $q2->where('user_id', $id)); // 自分が出品者
+            })
+            ->get();
+
+        $averageRating = round($receivedReviews->avg('rating'));
+
+        // POSTの場合はGETにリダイレクト
         if ($request->isMethod('post')) {
             $page = $request->page;
-            // リダイレクト後はGETリクエストとして処理される
             return redirect()->route('mypage', ['page' => $page]);
         }
 
-        // GETリクエストの場合、クエリパラメータ 'page' を取得
         $page = $request->query('page');
 
-        // 'page' パラメータに応じて処理を分ける
-        if ($page == 'buy') {
-            // 購入した商品
-            $contacts = Item::whereIn('id', function ($query) use ($id) {
-                // paymentテーブルと一致するitem_idを取得
-                $query->select('item_id')
-                    ->from('payments')
-                    ->where('user_id', $id);
+        // ----- 全商品の総未読件数を先に計算 -----
+        $allContacts = Item::whereHas('payments', function ($q) use ($id) {
+            $q->where('user_id', $id)
+                ->whereDoesntHave('review', fn($q2) => $q2->where('user_id', $id));
+        })
+            ->orWhereHas('payments', function ($q) use ($id) {
+                $q->whereHas('item', function ($q2) use ($id) {
+                    $q2->where('user_id', $id);
+                })
+                    ->whereDoesntHave('review', fn($q2) => $q2->where('user_id', $id));
             })
-                ->with('image')  // 関連する画像も取得
-                ->get();
-        } else {
-            $contacts = Item::where('items.user_id', $id)
-                ->with('image')
-                ->paginate(8);
+            ->with(['payments.messages'])
+            ->get();
+
+
+        $total_unread = 0;
+        foreach ($allContacts as $item) {
+            foreach ($item->payments as $payment) {
+                $lastMyMessage = $payment->messages()
+                    ->where('user_id', $id)
+                    ->orderByDesc('created_at')
+                    ->first();
+
+                $lastMyTime = $lastMyMessage ? $lastMyMessage->created_at : null;
+
+                $unreadCount = $payment->messages()
+                    ->where('user_id', '!=', $id)
+                    ->when($lastMyTime, fn($q) => $q->where('created_at', '>', $lastMyTime))
+                    ->count();
+
+                $total_unread += $unreadCount;
+            }
         }
+        // ---------------------------------------------
+
+        // 'page' に応じて表示する商品を取得
+        switch ($page) {
+            case 'buy':
+                $contacts = Item::whereIn('id', function ($query) use ($id) {
+                    $query->select('item_id')
+                        ->from('payments')
+                        ->where('user_id', $id);
+                })
+                    ->with(['image', 'payments'])
+                    ->get();
+                break;
+            case 'trade':
+                $contacts = $allContacts;
+                foreach ($contacts as $item) {
+                    // 自分がレビュー済みの payment は除外
+                    $filteredPayments = $item->payments->filter(function ($payment) use ($id) {
+                        return !$payment->review()->where('user_id', $id)->exists();
+                    });
+
+                    $itemUnread = 0;
+
+                    foreach ($filteredPayments as $payment) {
+                        $lastMyMessage = $payment->messages()
+                            ->where('user_id', $id)
+                            ->orderByDesc('created_at')
+                            ->first();
+                        $lastMyTime = $lastMyMessage ? $lastMyMessage->created_at : null;
+
+                        $unreadCount = $payment->messages()
+                            ->where('user_id', '!=', $id)
+                            ->when($lastMyTime, fn($q) => $q->where('created_at', '>', $lastMyTime))
+                            ->count();
+
+                        $itemUnread += $unreadCount;
+                    }
+
+                    $item->unread_count = $itemUnread;
+                    // レビュー済みは除外した filteredPayments に置き換える
+                    $item->payments = $filteredPayments;
+                }
+                break;
+
+            default:
+                $contacts = Item::where('user_id', $id)
+                    ->with(['image', 'payments'])
+                    ->paginate(8);
+                break;
+        }
+
         if ($contacts->isEmpty()) {
             $contacts = null;
         }
-        // 'mypage'ビューに渡す
-        return view('mypage', compact('profiles', 'contacts'));
+
+        // 取引中件数
+        $tradeCount = $allContacts->count();
+
+        return view('mypage', compact('profiles', 'contacts', 'tradeCount', 'page', 'total_unread', 'averageRating'));
     }
+
 
     public function search(Request $request)
     {
@@ -363,78 +447,4 @@ class ContentsController extends Controller
         return view('sell', compact('categories'));
     }
 
-    public function purchase(Request $request, $item_id)
-    {
-        // ログインユーザーID取得
-        $id = Auth::id();
-
-        if ($request->isMethod('post')) {
-            // 入力データを取得
-            $contact = $request->only(['post_code', 'address', 'building']);
-
-            // 現在のプロフィール情報を取得
-            $profile = Profile::where('user_id', $id)->first();
-
-            // 既存のプロフィールがある場合は、変更された項目のみ更新
-            if ($contact !== $profile->only(['post_code', 'address', 'building'])) {
-                $profile->update($contact);
-            }
-        }
-
-        $contact = Item::with(['image'])->findOrFail($item_id);
-
-        $profile = Profile::where('user_id', $id)->first();
-
-        $profile->post_code = substr($profile->post_code, 0, 3) . '-' . substr($profile->post_code, 3);
-
-        return view('purchase', compact('contact', 'profile'));
-    }
-    public function payment(Request $request, $item_id)
-    {
-        // ログインユーザーID取得
-        $id = Auth::id();
-
-        // Stripeの秘密鍵を設定
-        Stripe::setApiKey(config('services.stripe.secret'));
-
-        // 商品情報の取得
-        $contact = Item::find($item_id);
-
-        // PaymentIntentの作成
-        $paymentIntent = PaymentIntent::create([
-            'amount' => $contact->price * 100, // 円から銭へ
-            'currency' => 'jpy',
-            'metadata' => [
-                'contact_id' => $contact->id,
-            ],
-        ]);
-
-        $clientSecret = $paymentIntent->client_secret;
-
-        if ($paymentIntent->status == 'succeeded') {
-            $payment = Payment::create([
-                'user_id' => $id,
-                'item_id' => $item_id
-            ]);
-        }
-
-        return view('payment.stripe', compact('contact', 'clientSecret'));
-    }
-
-    public function paymentSuccess()
-    {
-        // 支払い成功後はindexページへ
-        return redirect()->route('index');
-    }
-
-    public function address($item_id)
-    {
-        // ログインユーザーID取得
-        $id = Auth::id();
-
-        // 現在のプロフィール情報を取得
-        $profiles = Profile::where('user_id', $id)->first();
-
-        return view('address', compact('profiles', 'item_id'));
-    }
 }

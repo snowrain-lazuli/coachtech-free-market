@@ -4,31 +4,6 @@
 <link rel="stylesheet" href="{{ asset('css/item.css')}}">
 @endsection
 
-@section('link')
-<form class="search__form" action="/search" method="post">
-    @csrf
-    <input class="header__middle" type="text" name="search" placeholder="なにをお探しですか？">
-</form>
-<div class="header__link">
-    @if (Auth::check())
-    <form action="/logout" method="post">
-        @csrf
-        <input class="header__link-logout" type="submit" value="ログアウト">
-    </form>
-    @else
-    <a class="header__link-login" href="/login">ログイン</a>
-    @endif
-    <form action="/mypage" method="get">
-        @csrf
-        <input class="header__link-mypage" type="submit" value="マイページ">
-    </form>
-    <form action="/sell" method="get">
-        @csrf
-        <input class="header__link-sell" type="submit" value="出品">
-    </form>
-</div>
-@endsection
-
 @section( 'content')
 <div class="item__content">
     <div class="item__img">
@@ -40,7 +15,7 @@
             <p>{{ $contact['brand'] }}</p>
         </div>
         <div class="item__price">
-            <p>\<span class="item__price-integer">{{ $contact['price'] }}</span>(税込)</p>
+            <p>&yen;<span class="item__price-integer">{{ $contact['price'] }}</span>(税込)</p>
         </div>
         <div class="item__status">
             <div class="item__cart">
@@ -72,7 +47,9 @@
             </div>
         </div>
         <div class="item-form">
-            @if ($isPurchased)
+            @if($contact->user_id === Auth::id())
+            <p>出品者です</p>
+            @elseif ($isPurchased)
             <p>購入済みです</p>
             @else
             <form class="item-form__form" action="/purchase/{{$contact->id}}" method="get">

@@ -13,6 +13,7 @@ class Image extends Model
     protected $fillable = [
         'user_id',
         'item_id',
+        'message_id',
         'img_url'
     ];
     protected $guarded = [
@@ -25,9 +26,16 @@ class Image extends Model
         parent::boot();
 
         static::creating(function ($image) {
-            // user_id と item_id の片方が必ずnullであることをチェック
-            if (!((!$image->user_id && $image->item_id) || (!$image->item_id && $image->user_id))) {
-                throw new \Exception('user_id または item_id のいずれか一方は必ずnullでなければなりません。');
+            $filled = [
+                'user_id' => !is_null($image->user_id),
+                'item_id' => !is_null($image->item_id),
+                'message_id' => !is_null($image->message_id),
+            ];
+
+            // true の数を数える
+            $count = array_filter($filled); // true の数だけ残る
+            if (count($count) !== 1) {
+                throw new \Exception('user_id、item_id、message_id のうち、どれか1つだけを入力してください。');
             }
         });
     }
