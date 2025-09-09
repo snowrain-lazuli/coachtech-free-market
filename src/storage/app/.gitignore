@@ -1,3 +1,4 @@
 *
 !public/
 !.gitignore
+docker/mysql/data/*
